@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <!-- Formulário de Login -->
+        <form id="Form" name="Formulario">
+            <label>Usuário:</label><input type="text" id="login" placeholder="Digite o usuário"><br><br>
+            <label>Senha:</label><input type="password" id="password" placeholder="Digite a senha"><br><br>
+            <input type="button" value="ENTRAR" id="btn">
+        </form>
+        <!-- Formulário de Cadastro -->
+        <form id="Form2" name="Form_Novo">
+            <label>COMPRAR JOGO: FIFA 20</label><br><br>
+            <label>Favor inserir suas informações abaixo para o envio do jogo:</label><br><br>
+            <label>Nome:</label><input type="text" id="name" placeholder="Digite seu nome"><br><br>
+            <label>CEP:</label><input type="text" id="cep" placeholder="Digite seu Cep"><br><br>
+            <label>Cidade:</label><input type="text" id="city" placeholder="Digite a sua cidade Atual"><br><br>
+            <label>Estado:</label><input type="text" id="state" placeholder="Digite seu estado Atual"><br><br>
+            <label>Bairro:</label><input type="text" id="bai" placeholder="Digite seu bairro atual"><br><br>
+            <label>Numero da residência:</label><input type="number" id="num" placeholder="Digite o numero da residência"><br><br>
+            <label>Telefone:</label><input type="tel" id="tel" placeholder="Digite um telefone para contato"><br><br>
+            <label>E-mail:</label><input type="email" id="mail" placeholder="Digite um e-mail valido para contato"><br><br>
+            <input type="button" id="btn2" value="Realizar Compra"><input type="button" id="exit" value="Cancelar Compra">
+        </form>
+
+        <script type="text/javascript">
+            //Declaração de Variáveis
+            var form = document.getElementById('Form');
+            var btn = document.getElementById('btn');
+            var form2 = document.getElementById('Form2');
+            var city= document.getElementById('city');
+            var state = document.getElementById('state');
+            var bairro = document.getElementById('bai');
+            var nome = document.getElementById('name');
+            var num = document.getElementById('num').value;
+            var tel = document.getElementById('tel').value;
+            var email = document.getElementById('mail').value;
+            var btn2 = document.getElementById('btn2');
+            var exit = document.getElementById('exit');
+
+            //Pré-condições
+            form2.style.display="none";   
+
+            // Funções
+
+            //Função de Validação de login
+            btn.addEventListener('click', function(){
+            let Log_user = document.getElementById('login').value;
+            let Log_pass = document.getElementById('password').value;
+                if ((Log_user == 'admin') && (Log_pass == 123)){
+                    alert('Login Realizado');
+                    form.style.display= "none";
+                    form2.style.display = "block";    
+                }else{
+                    alert('Usuário ou senha errados ou em branco!');
+                }
+            });
+
+            //Função usando JSON e AJAX para encontrar endereço
+            city.addEventListener('click', function(){
+            let cep = document.getElementById('cep').value;
+            let xhr = new XMLHttpRequest();
+			xhr.open('GET','https://viacep.com.br/ws/'+cep+'/json');
+			xhr.send();
+
+            xhr.onload = function(){
+				let strjson = xhr.response;
+				let end = JSON.parse(strjson);
+				if (xhr.status === 200) {
+					
+				}else{
+					alert('ERRO DE CONSULTA! Status do erro: '+ xhr.status);
+				}
+                state.value = end.uf;
+                bairro.value = end.bairro;
+                city.value = end.localidade;
+			};
+
+            });
+            //Função para Realizar a compra
+            btn2.addEventListener('click', function(){
+                if (city != ""){
+                    alert(' COMPRA REALIZADA COM SUCESSO! ');
+                }else{
+                    alert('Existem Campos em Branco! Preencha Todos..');
+                }
+               
+            });
+
+            //Função para "Quitar" do formulário
+            exit.addEventListener('click', function(){
+                alert('Cancelando Compra..');
+                alert('Compra Cancelada com sucesso!');
+                document.getElementById('name').value="";
+                document.getElementById('cep').value="";
+                document.getElementById('login').value="";
+                document.getElementById('password').value="";
+                document.getElementById('city').value="";
+                document.getElementById('state').value="";
+                document.getElementById('bai').value="";
+                document.getElementById('num').value="";
+                document.getElementById('tel').value="";
+                document.getElementById('mail').value="";
+                form2.style.display = "none";
+                form.style.display= "block";
+                
+            });
+
+        </script>
+
+    </body>
+</html>
