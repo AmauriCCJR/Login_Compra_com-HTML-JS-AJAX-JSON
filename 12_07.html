@@ -10,40 +10,63 @@
             <label>Senha:</label><input type="password" id="password" placeholder="Digite a senha"><br><br>
             <input type="button" value="ENTRAR" id="btn">
         </form>
-        <!-- Formulário de Cadastro -->
-        <form id="Form2" name="Form_Novo">
+        <!-- Formulário de Compra -->
+        <form id="Form2" name="Form_Novo" method="POST" action="#">
             <label>COMPRAR JOGO: FIFA 20</label><br><br>
             <label>Favor inserir suas informações abaixo para o envio do jogo:</label><br><br>
-            <label>Nome:</label><input type="text" id="name" placeholder="Digite seu nome"><br><br>
-            <label>CEP:</label><input type="text" id="cep" placeholder="Digite seu Cep"><br><br>
-            <label>Cidade:</label><input type="text" id="city" placeholder="Digite a sua cidade Atual"><br><br>
-            <label>Estado:</label><input type="text" id="state" placeholder="Digite seu estado Atual"><br><br>
-            <label>Bairro:</label><input type="text" id="bai" placeholder="Digite seu bairro atual"><br><br>
-            <label>Numero da residência:</label><input type="number" id="num" placeholder="Digite o numero da residência"><br><br>
-            <label>Telefone:</label><input type="tel" id="tel" placeholder="Digite um telefone para contato"><br><br>
-            <label>E-mail:</label><input type="email" id="mail" placeholder="Digite um e-mail valido para contato"><br><br>
-            <input type="button" id="btn2" value="Realizar Compra"><input type="button" id="exit" value="Cancelar Compra">
+            <label>Nome:</label><input type="text" id="name" placeholder="Digite seu nome">
+            <p id="d_nome"></p><br>
+            <label>CEP:</label><input type="text" id="cep" placeholder="Digite seu Cep">
+            <p id="d_cep"></p><br>
+            <label>Cidade:</label><input type="text" id="city" placeholder="Digite a sua cidade Atual">
+            <br><br>
+            <label>Estado:</label><input type="text" id="state" placeholder="Digite seu estado Atual">
+            <br><br>
+            <label>Bairro:</label><input type="text" id="bai" placeholder="Digite seu bairro atual">
+            <br><br>
+            <label>Numero da residência:</label><input type="text" id="num" placeholder="Digite o numero da residência">
+            <p id="d_num"></p><br>
+            <label>Telefone:</label><input type="text" id="tel" placeholder="Ex:11987654321 ou 47116669">
+            <p id="d_tel"></p><br>
+            <label>E-mail:</label><input type="text" id="mail" placeholder="Digite um e-mail para contato">
+            <p id="d_mail"></p><br>
+            <input type="submit" id="btn2" value="Realizar Compra"><input type="button" id="exit" value="Cancelar Compra">
         </form>
 
         <script type="text/javascript">
+            var form2 = document.getElementById('Form2');
+            form2.addEventListener('submit', function(event){ 
+            if (!validador()) {
+            alert('Existem campos invalidos ou não preenchidos');
+            event.preventDefault();}});
+
+
             //Declaração de Variáveis
             var form = document.getElementById('Form');
             var btn = document.getElementById('btn');
-            var form2 = document.getElementById('Form2');
-            var city= document.getElementById('city');
+          
+            var city = document.getElementById('city');
             var state = document.getElementById('state');
             var bairro = document.getElementById('bai');
             var nome = document.getElementById('name');
-            var num = document.getElementById('num').value;
-            var tel = document.getElementById('tel').value;
-            var email = document.getElementById('mail').value;
+            var num = document.getElementById('num');
+            var tel = document.getElementById('tel');
+            var email = document.getElementById('mail');
             var btn2 = document.getElementById('btn2');
             var exit = document.getElementById('exit');
+            var d_nome = document.getElementById('d_nome');
+            var d_cep = document.getElementById('d_cep');
+            var d_num = document.getElementById('d_num');
+            var d_tel = document.getElementById('d_tel');
+            var d_mail = document.getElementById('d_mail');
 
-            //Pré-condições
-            form2.style.display="none";   
+            //Pré condições
+            form2.style.display="none"; 
+            
+            
 
-            // Funções
+            // FUNÇÕES 
+
 
             //Função de Validação de login
             btn.addEventListener('click', function(){
@@ -80,14 +103,7 @@
 
             });
             //Função para Realizar a compra
-            btn2.addEventListener('click', function(){
-                if (city != ""){
-                    alert(' COMPRA REALIZADA COM SUCESSO! ');
-                }else{
-                    alert('Existem Campos em Branco! Preencha Todos..');
-                }
-               
-            });
+            
 
             //Função para "Quitar" do formulário
             exit.addEventListener('click', function(){
@@ -107,7 +123,78 @@
                 form.style.display= "block";
                 
             });
+           
+            
+            //validador de Formulário
+            function validador(){
+                var erro = 0;
 
+                //Validador Nome
+                if (nome.value === ''){
+                    erro++;
+                    nome.style.borderColor = "Red";
+                    d_nome.innerHTML = 'Digite um nome valido!';
+                }else{
+                    if (nome.value.length < 3){
+                        erro++;
+                        nome.style.borderColor = "Red";
+                        d_nome.innerHTML = 'Digite um nome valido!';
+                    }
+                }
+                //Validador CEP
+                if (cep.value === ''){
+                    erro++;
+                    cep.style.borderColor = "Red";
+                    d_cep.innerHTML = "Digite um CEP!";
+                }else{
+                    if (cep.value.length > 8){
+                        erro++;
+                        cep.style.borderColor = "Red";
+                        d_cep.innerHTML = "Digite um CEP valido!";
+                    }
+                }
+
+                //Validador NUM
+                if (num.value === ''){
+                    erro++;
+                    num.style.borderColor = "Red";
+                    d_num.innerHTML = "Digite o numero da sua residência!";
+                }else{
+                    if((num.value < 0) || (num.value.length > 3)){
+                        erro++;
+                        num.style.borderColor = "Red";
+                        d_num.innerHTML = "Digite o verdadeiro numero da sua residência!";
+                    }
+                }
+
+                //Validador TEL
+                if ((tel.value.length == 11) || (tel.value.length == 8) || (tel.value.length == 0)){
+                    
+                }else{
+                    erro++;
+                    tel.style.borderColor = "Red";
+                    d_tel.innerHTML = "Digite um telefone para contato valido!";
+                }
+
+                //Validador E-mail
+                if (email === ''){
+                    erro++;
+                    email.style.borderColor = "Red";
+                    d_mail.innerHTML = "Digite um email para contato";
+                }else{
+                    if (email.value.indexOf('@') === -1 || email.value.indexOf('.') === -1){
+                        erro++;
+                        email.style.borderColor = "Red";
+                        d_mail.innerHTML = "Digite um email para contato valido!";
+                    }
+                }
+
+                if (erro > 0){
+                    return false;
+                }else{
+                    return true;
+                }
+                }
         </script>
 
     </body>
